@@ -1,0 +1,13 @@
+# Artefacts de build
+target/
+__pycache__/
+*.pyc
+.venv/
+
+# Secrets — ne jamais committer
+*token*
+*.pem
+.env
+
+# LibreOffice
+.~lock.*#
