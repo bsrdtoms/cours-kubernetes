@@ -1,0 +1,38 @@
+# Deployment : gere les ReplicaSets et permet de mettre a jour l'application
+# sans interruption. C'est lui qui garantit que 3 pods tournent en permanence.
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  # Nom de l'objet Deployment dans le namespace
+  name: python-api
+  labels:
+    app: python-api
+
+spec:
+  # Nombre de pods identiques demandes par l'enonce
+  replicas: 3
+
+  # Le selector dit au Deployment QUELS pods lui appartiennent.
+  # Il doit correspondre aux labels du template ci-dessous, sinon
+  # le Deployment ne reconnait pas ses propres pods et le build echoue.
+  selector:
+    matchLabels:
+      app: python-api
+
+  # Template = le moule a partir duquel chaque pod est cree
+  template:
+    metadata:
+      labels:
+        # Ces labels sont ceux que le selector ci-dessus recherche
+        app: python-api
+    spec:
+      containers:
+        - name: python-api
+          # Image construite et poussee sur Docker Hub au TP 1
+          image: thomasbossard/python-api:1.0
+          ports:
+            # Port sur lequel uvicorn ecoute dans le conteneur.
+            # Purement documentaire, comme EXPOSE dans le Dockerfile :
+            # cela n'ouvre aucun acces reseau depuis l'exterieur.
+            - containerPort: 8000

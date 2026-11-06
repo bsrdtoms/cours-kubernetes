@@ -42,3 +42,18 @@ de tailles demandée par l'énoncé :
 |---|---|---|
 | `java-api:mono` | 932 Mo | 302 Mo |
 | `java-api:multi` | 326 Mo | 91,9 Mo |
+
+## TP 2 · Premiers pas sur Kubernetes
+
+Compte rendu : [`tp2/TP2_compte_rendu_BOSSARD.odt`](tp2/TP2_compte_rendu_BOSSARD.odt)
+
+[`tp2/deployment.yaml`](tp2/deployment.yaml) — Deployment de 3 replicas de l'API Python
+du TP 1, déployé sur le namespace `user-thomasfr` du SSP Cloud. Pas de Service : le test
+passe par `kubectl port-forward`.
+
+```bash
+kubectl apply -f tp2/deployment.yaml
+kubectl get pods -l app=python-api
+kubectl port-forward deployment/python-api 8080:8000 &
+curl localhost:8080/hello
+```
